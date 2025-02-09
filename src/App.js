@@ -6,11 +6,11 @@ import SinglePost from './components/SinglePost';
 function App() {
 
   const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(()=>{
 
-    fetch('https://jsonplaceholder.typicode.com/posts')
+    fetch('https://jsonplaceholder.typicode.com/posts/')
     .then((response)=>{
           return response.json()
     }).then((data)=>{
@@ -21,12 +21,15 @@ function App() {
         console.log(error)
     })
 
-  },[])
+  },[loading])
 
-     
+
+
+  console.log('Render');
   
   return (
     <>
+    <input type='button' value="Load Again" onClick={()=>{setLoading(true)}} /> 
       { loading ? "Loading..." : 
       <div className='row'>
        {
@@ -34,7 +37,7 @@ function App() {
             return <SinglePost key={item.id} title={item.title} body={item.body} />
           })
        }
-       AFnan
+       
       </div>
       }
       </>
