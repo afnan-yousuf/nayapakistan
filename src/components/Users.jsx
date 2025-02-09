@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 function Users() {
     const [users, setUsers] = useState([]);
+    const [user, setUser] = useState(null);
 
     useEffect(()=>{
         fetch('https://jsonplaceholder.typicode.com/users')
@@ -17,7 +18,20 @@ function Users() {
     },[])
 
     function viewSingleUser(id){
-        console.log(id);
+       
+       
+            fetch('https://jsonplaceholder.typicode.com/users/'+id)
+            .then(response => {
+                return response.json()
+            })
+            .then(data=>{
+                setUser(data)
+            })
+            .catch(error=>{
+                console.error(error)
+            })
+       
+
     }
 
 
@@ -46,9 +60,22 @@ function Users() {
                 }
             </tbody>
         </table>
+
+        <div>
+            {
+                user &&
+                <>
+                    <h1>{user.name}</h1>
+                    <p>{user.email}</p>
+                    <p>{user.address.street}</p>
+                    <p><a href={"http://"+user.website+""} target='_blank'>website</a> </p>
+                </>
+            }
+        </div>
     </div>
  
 )
 }
 
 export default Users
+
