@@ -34,6 +34,7 @@ function App() {
             return <SinglePost key={item.id} title={item.title} body={item.body} />
           })
        }
+       AFnan
       </div>
       }
       </>
