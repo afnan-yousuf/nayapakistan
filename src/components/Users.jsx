@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 function Users() {
     const [users, setUsers] = useState([]);
     const [user, setUser] = useState(null);
+    const [isloading, setIsloading] = useState(false);
 
     useEffect(()=>{
         fetch('https://jsonplaceholder.typicode.com/users')
@@ -19,13 +20,14 @@ function Users() {
 
     function viewSingleUser(id){
        
-       
+            setIsloading(true);
             fetch('https://jsonplaceholder.typicode.com/users/'+id)
             .then(response => {
                 return response.json()
             })
             .then(data=>{
                 setUser(data)
+                setIsloading(false);
             })
             .catch(error=>{
                 console.error(error)
@@ -36,7 +38,8 @@ function Users() {
 
 
     return (
-    <div>
+    <div className='row'>
+        <div className='col-sm-7'>
         <h1>User List</h1>
         <table className='table'>
             <thead>
@@ -60,9 +63,12 @@ function Users() {
                 }
             </tbody>
         </table>
+        </div>
 
-        <div>
+        <div className='col-sm-5'>
             {
+                isloading ? <img src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/585d0331234507.564a1d239ac5e.gif" width="200"/> : 
+
                 user &&
                 <>
                     <h1>{user.name}</h1>
